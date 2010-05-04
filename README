@@ -1,0 +1,44 @@
+RkmlView
+========
+
+Adds KML generator support to Rails views.
+
+Tested with Rails 2.3.5
+
+
+Example
+=======
+
+Simple show.rkml
+
+  folder = KML::Folder.new(:name => 'Melbourne Stations')
+  [
+    ["Flinders St",    -37.818078, 144.966811],
+    ["Southern Cross", -37.818358, 144.952417],
+  ].each do |name, lat, lng|
+    folder.features << KML::Placemark.new(
+      :name => name,
+      :geometry => KML::Point.new(:coordinates => {:lat => lat, :lng => lng})
+    )
+  end
+  kml.objects << folder
+
+
+Install
+=======
+
+First install ruby_kml gem:
+
+  gem install schleyfox-ruby_kml --source http://gems.github.com
+
+Then install rkml_view plugin:
+
+  ./script/plugin install git://github.com/laurynas/rkml_view.git
+
+Add kml mime type to config/initializers/mime_types.rb
+
+  Mime::Type.register "application/vnd.google-earth.kml+xml", :kml
+
+
+
+Copyright (c) 2010 Laurynas Butkus, released under the MIT license
